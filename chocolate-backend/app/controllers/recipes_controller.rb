@@ -3,16 +3,16 @@ class RecipesController < ApplicationController
 
     def index
         recipes = Recipe.all
-        render json: RecipeSerializer.new(recipes).to_serialized_json
+        render json: recipes #RecipeSerializer.new(recipes).to_serialized_json
     end
 
     def create
-        recipe = Recipe.create(recipe_params)
+        recipe = Recipe.create(title: params[:title], instructions: params[:instructions], difficulty_level: params[:difficulty_level],img_url: params[:img_url])
     end
 
     def show
         recipe = Recipe.find_by(id: params[:id])
-        render json: RecipeSerializer.new(recipe).to_serialized_json    
+         render json: recipe #RecipeSerializer.new(recipe).to_serialized_json    
     end
 
     def edit
@@ -25,11 +25,11 @@ class RecipesController < ApplicationController
     end
 
 
-    private
+    # private
 
-    def recipe_params
-        params.require(:recipe).permit(:title, :instructions, :difficulty_level,:img_url, :category_id)
-    end
+    # def recipe_params
+    #     params.require(:recipe).permit(:title, :instructions, :difficulty_level,:img_url)
+    # end
 
     
 
