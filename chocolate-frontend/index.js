@@ -33,9 +33,18 @@ function flipCard(){
     let cards = document.querySelectorAll(".chocolate-card")
     cards.forEach(card=>{
         card.addEventListener("click", function(event){
-            
+            showcard(card)
         })
+        
     })
+}
+
+function showcard(card){
+
+    
+
+
+
 }
 
 document.addEventListener("DOMContentLoaded", ()=>{
