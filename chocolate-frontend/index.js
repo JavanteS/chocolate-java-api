@@ -5,10 +5,19 @@ document.addEventListener("load", ()=>{
 })
 
 function displayChocolates(){
+
+    let container = document.getElementById("chocolates-container")
     return fetch(BASE_URL+"/recipes")
 
     .then(resp => resp.json())
 
-    .then(json => console.log(json))
+    .then(json => {
+        json.forEach(coco =>{
+            displaychocolate(coco)
+        })
+   
+    })
 }
+
+fun
 
