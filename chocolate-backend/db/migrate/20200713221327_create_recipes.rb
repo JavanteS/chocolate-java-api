@@ -5,6 +5,7 @@ class CreateRecipes < ActiveRecord::Migration[6.0]
       t.text :instructions
       t.string :difficulty_level
       t.string :img_url
+      t.integer :category_id
 
       t.timestamps
     end

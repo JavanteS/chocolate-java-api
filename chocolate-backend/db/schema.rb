@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(version: 2020_07_13_223103) do
     t.text "instructions"
     t.string "difficulty_level"
     t.string "img_url"
+    t.integer "category_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
