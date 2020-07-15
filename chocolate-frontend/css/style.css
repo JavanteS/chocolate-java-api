@@ -4,6 +4,10 @@
     box-sizing: border-box;
 }
 
+body{
+    background-color: rgb(236, 234, 234);
+}
+
 nav{
     display: flex;
     justify-content: space-around;
@@ -41,7 +45,7 @@ nav{
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 10px;
-    grid-auto-rows: minmax(100px, auto);
+    grid-auto-rows: minmax(450px, auto);
   }
 .chocolate-card{
     height: 150px; 
