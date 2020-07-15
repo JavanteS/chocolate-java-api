@@ -33,10 +33,6 @@ function displayChocolates(coco){
 }
 
 
-
-
-
-
 function make_clickable(){
     let cakeId = document.getElementById("cakes")
     cakeId.addEventListener("click", fetchCakes)
@@ -69,6 +65,7 @@ function displayCard(){
      .then(data => {
          div.innerHTML += `<div class="back-card">
          <h3>${data.title}</h3>
+         <img data-id="${data.id}" src="${data.img_url}"/>
          <p>${data.difficulty_level}</p>
          <p>${data.instructions}<p>
          `
