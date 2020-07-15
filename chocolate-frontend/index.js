@@ -25,7 +25,7 @@ function displayChocolates(coco){
     <div class="container" >
     <h2>${coco.title}</h2>
     <p>${coco.difficulty_level}</p>
-    <p>${coco.category.name}</p>
+    <p data-category="${coco.category.id}">${coco.category.name}</p>
      </div>
     </div>`
 
@@ -35,7 +35,7 @@ function displayChocolates(coco){
 
 function make_clickable(){
     let cakeId = document.getElementById("cakes")
-    cakeId.addEventListener("click", fetchCakes)
+    cakeId.addEventListener("click", displayCakes)
     let cards = document.querySelectorAll(".chocolate-card")
     cards.forEach(card=>{
         card.addEventListener("click", displayCard)})
@@ -46,12 +46,6 @@ function clearPage(){
   let container = document.getElementById("chocolates-container")
   container.innerHTML = ""  
 }
-
-// function showCard(id){
-    
-    
- 
-//  }
 
 function displayCard(){
     
@@ -72,25 +66,32 @@ function displayCard(){
          
      })
    
-    
-   
      container.appendChild(div)
 }
 
-function fetchCakes(){
-    let container = document.getElementById("chocolates-container")
-    container.innerHTML = ""
-    fetch(BASE_URL+"/categories")
-    .then(resp => resp.json())
-    .then(data => displayCakes(data))
-        
-   
-}
 
-function displayCakes(cakes){
+function displayCakes(){
     clearPage()
     let cakeContainer = document.getElementById("cakes-container")
     let div = document.createElement("div")
+    let id = event.target.dataset.id
+    return fetch(BASE_URL+"/categories/"+id)
+    .then(resp => resp.json())
+    .then(data => {
+        // let cake = data.find(({e}) => e === "Cake")
+            data.recipes.forEach(sweet => {
+            
+            div.innerHTML += `<h1>${data.name}</h1>
+       
+            <p>${sweet.title}</p>
+            <img src="${sweet.img_url}"/>`
+
+        
+        cakeContainer.appendChild(div)})
+    })
+        
+        
+    
     
 }
 
