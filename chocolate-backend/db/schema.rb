@@ -20,8 +20,9 @@ ActiveRecord::Schema.define(version: 2020_07_13_223103) do
 
   create_table "recipes", force: :cascade do |t|
     t.string "title"
-    t.text "instructions"
-    t.string "difficulty_level"
+    t.text "product_details"
+    t.integer "price"
+    t.integer "quanity"
     t.string "img_url"
     t.integer "category_id"
     t.datetime "created_at", precision: 6, null: false

@@ -7,7 +7,7 @@ class RecipesController < ApplicationController
     end
 
     def create
-        recipe = Recipe.create(title: params[:title], instructions: params[:instructions], difficulty_level: params[:difficulty_level],img_url: params[:img_url])
+        recipe = Recipe.create(title: params[:title], product_details: params[:product_details], price: params[:price], quanity: params[:quanity], img_url: params[:img_url])
     end
 
     def show

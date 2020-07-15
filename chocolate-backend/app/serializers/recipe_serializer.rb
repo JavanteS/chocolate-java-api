@@ -1,5 +1,5 @@
 class RecipeSerializer < ActiveModel::Serializer
-  attributes :id, :title, :instructions, :difficulty_level, :img_url
+  attributes :id, :title, :product_details, :price, :quanity, :img_url
   belongs_to :category
 
   # def initialize(recipe)
