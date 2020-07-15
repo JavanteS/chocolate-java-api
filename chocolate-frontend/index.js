@@ -24,7 +24,7 @@ function displayChocolates(coco){
     <img data-id="${coco.id}" src="${coco.img_url}"/>
     <div class="container" >
     <h2>${coco.title}</h2>
-    <p>${coco.difficulty_level}</p>
+    <p>Level: ${coco.difficulty_level}</p>
     <p data-category="${coco.category.id}">${coco.category.name}</p>
      </div>
     </div>`
@@ -34,8 +34,13 @@ function displayChocolates(coco){
 
 
 function make_clickable(){
-    let cakeId = document.getElementById("cakes")
-    cakeId.addEventListener("click", displayCakes)
+    // let cakeId = document.getElementById("cakes")
+    // cakeId.addEventListener("click", displayCakes)
+    let links = document.querySelectorAll(".nav-links")
+    links.forEach(link => {
+        link.addEventListener("click", displayLinks)
+    })
+
     let cards = document.querySelectorAll(".chocolate-card")
     cards.forEach(card=>{
         card.addEventListener("click", displayCard)})
@@ -70,7 +75,7 @@ function displayCard(){
 }
 
 
-function displayCakes(){
+function displayLinks(){
     clearPage()
     let cakeContainer = document.getElementById("cakes-container")
     let div = document.createElement("div")
