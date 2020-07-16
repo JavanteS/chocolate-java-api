@@ -22,7 +22,13 @@ nav{
     text-transform: uppercase;
     letter-spacing: 5px;
     font-size: 15px;
+    text-decoration: none
 
+}
+
+.logo a{
+    text-decoration: none;
+    color: rgb(218, 214, 214);
 }
 
 .nav-links{
@@ -68,11 +74,15 @@ nav{
   }
 
 img {
-      height: 350px;
-      width: 250px;
+      height: 250px;
+      width: 150px;
       border-radius: 5px 5px 0 0;
       
 
+  }
+
+  p {
+      font-weight: bold;
   }
 
 .container{

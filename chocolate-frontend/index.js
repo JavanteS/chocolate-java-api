@@ -1,5 +1,6 @@
 const BASE_URL = "http://localhost:3000"
 
+// this array has all of the recipes
 let arrayCart = []
 
 
@@ -27,6 +28,7 @@ function displayChocolates(coco){
     <h2>${coco.title}</h2>
     <p>$${coco.price}</p>
     <p data-category="${coco.category.id}">${coco.category.name}</p>
+    <a class= "add-to-cart" href="#">Add to cart</a>
      </div>
     </div>`
 
@@ -49,7 +51,7 @@ function make_clickable(){
 
     let cards = document.querySelectorAll(".chocolate-card")
     cards.forEach(card=>{
-        card.addEventListener("click", displayCard)})
+        card.querySelector("img").addEventListener("click", displayCard)})
     
     let form = document.getElementById("recipeForm")
     form.addEventListener("click", displayForm)
@@ -95,7 +97,7 @@ function displayCard(){
          <img data-id="${data.id}" src="${data.img_url}"/>
          <p>${data.product_details}</p>
          <p>${data.quanity}<p>
-         <a class= "add-to-cart" href="#">Add to cart</a>
+         
          `
          
      })
@@ -140,9 +142,22 @@ function cartArray(){
     })
 }
 
+function cartAdder(){
+let add = document.querySelectorAll(".add-to-cart")
+
+for(let i = 0; i < add.length; i++){
+    add[i].addEventListener("click", ()=>{
+       console.log("item added")
+    })
+}
+
+}
+
 
 document.addEventListener("DOMContentLoaded", ()=>{
     fetchChocolates()
+    cartArray()
+    cartAdder()
     
     
 })
