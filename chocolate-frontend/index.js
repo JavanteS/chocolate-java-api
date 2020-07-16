@@ -1,5 +1,6 @@
 const BASE_URL = "http://localhost:3000"
 
+let arrayCart = []
 
 
 function fetchChocolates(){
@@ -34,10 +35,13 @@ function displayChocolates(coco){
 
 
 function make_clickable(){
-    // let cakeId = document.getElementById("cakes")
-    // cakeId.addEventListener("click", displayCakes)
     let links = document.querySelectorAll(".nav-links")
     let home = document.querySelector(".logo")
+    //  let singles = docmuent.querySelectorAll(".category")
+    // singles.forEach(single=>{
+    //     single.addEventListener("click", displayCard)
+    // })
+    // single.addEventListener("click", displayCard)
     home.addEventListener("click", homePage)
     links.forEach(link => {
         link.addEventListener("click", displayLinks)
@@ -46,8 +50,16 @@ function make_clickable(){
     let cards = document.querySelectorAll(".chocolate-card")
     cards.forEach(card=>{
         card.addEventListener("click", displayCard)})
-
     
+    let form = document.getElementById("recipeForm")
+    form.addEventListener("click", displayForm)
+    
+}
+
+function displayForm(){
+    clearThisPage()
+    clearPage()
+
 }
 
 function homePage(){
@@ -73,6 +85,7 @@ function displayCard(){
     let container = document.getElementById("chocolates-container")
     let div = document.createElement("div")
     clearPage()
+
     fetch(BASE_URL+"/recipes/"+id)
      .then(resp => resp.json())
  
@@ -82,6 +95,7 @@ function displayCard(){
          <img data-id="${data.id}" src="${data.img_url}"/>
          <p>${data.product_details}</p>
          <p>${data.quanity}<p>
+         <a class= "add-to-cart" href="#">Add to cart</a>
          `
          
      })
@@ -92,6 +106,7 @@ function displayCard(){
 
 function displayLinks(){
     clearPage()
+    clearThisPage()
     let cakeContainer = document.getElementById("cakes-container")
     let div = document.createElement("div")
     let id = event.target.dataset.id
@@ -101,22 +116,33 @@ function displayLinks(){
         // let cake = data.find(({e}) => e === "Cake")
             data.recipes.forEach(sweet => {
             
-            div.innerHTML += `<h1>${data.name}</h1>
-       
+            div.innerHTML += `
+            <div data-id="${data.id}" class="category">
+            <h1>${data.name}</h1>
+
+            <img src="${sweet.img_url}"/>
             <p>${sweet.title}</p>
-            <img src="${sweet.img_url}"/>`
+            <p>${sweet.price}</p>
+            </div>`
 
         
         cakeContainer.appendChild(div)})
-    })
-        
-        
-    
-    
+    })   
 }
+
+function cartArray(){
+    fetch(BASE_URL+"/recipes")
+    .then(resp => resp.json())
+    .then(items => {
+        items.forEach(item =>{
+            arrayCart.push(item)
+        })
+    })
+}
+
 
 document.addEventListener("DOMContentLoaded", ()=>{
     fetchChocolates()
-   
+    
     
 })

@@ -41,6 +41,20 @@ nav{
 .nav-links li {
     list-style-type: none;
 }
+
+.category{
+    /* display: flex;
+    
+    flex-direction: row; */
+    margin: 100px;
+    justify-content: center;
+}
+
+/* .category p{
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+} */
 #chocolates-container {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
