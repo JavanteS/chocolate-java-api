@@ -77,12 +77,16 @@ img {
       height: 250px;
       width: 150px;
       border-radius: 5px 5px 0 0;
-      
-
+      transition: transform .2s
   }
+
+img:hover{
+    transform: scale(1.15)
+}
 
   p {
       font-weight: bold;
+      margin-top: 10px;
   }
 
 .container{

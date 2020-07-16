@@ -55,6 +55,12 @@ function make_clickable(){
     
     let form = document.getElementById("recipeForm")
     form.addEventListener("click", displayForm)
+
+    let add = document.querySelectorAll(".add-to-cart")
+
+    for(let i = 0; i < add.length; i++){
+    add[i].addEventListener("click", totalItems)
+    }
     
 }
 
@@ -142,22 +148,25 @@ function cartArray(){
     })
 }
 
-function cartAdder(){
-let add = document.querySelectorAll(".add-to-cart")
 
-for(let i = 0; i < add.length; i++){
-    add[i].addEventListener("click", ()=>{
-       console.log("item added")
-    })
+
+function totalItems(){
+    let nums = localStorage.getItem("totalItems")
+    num = parseInt(nums)
+    if(nums){
+        localStorage.setItem("totalItems", nums + 1)
+    }
+    
 }
 
-}
+
 
 
 document.addEventListener("DOMContentLoaded", ()=>{
     fetchChocolates()
     cartArray()
-    cartAdder()
+    
+    
     
     
 })
