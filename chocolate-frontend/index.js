@@ -1,8 +1,17 @@
 const BASE_URL = "http://localhost:3000"
 
 // this array has all of the recipes
-let arrayCart = []
+// let arrayCart = []
+// class Chocolate{
+//     constructor(){
 
+//     }
+//     renderChocolate(){
+    
+//     }
+// }
+// // myChocolate = new Chocolate(coco)
+// // myChocolate.renderChocolate()
 
 function fetchChocolates(){
 
@@ -152,9 +161,14 @@ function cartArray(){
 
 function totalItems(){
     let nums = localStorage.getItem("totalItems")
-    num = parseInt(nums)
+    nums = parseInt(nums)
     if(nums){
         localStorage.setItem("totalItems", nums + 1)
+        document.querySelector("#recipeForm span").textContent = nums + 1
+    }
+    else{
+        localStorage.setItem("totalItems", 1)
+        document.querySelector("#recipeForm span").textContent = 1
     }
     
 }
