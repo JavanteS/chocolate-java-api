@@ -1,5 +1,7 @@
 const BASE_URL = "http://localhost:3000"
 
+
+
 class Category{
     constructor(cat){
         this.id = cat.id 
@@ -8,9 +10,11 @@ class Category{
 
     renderCat(){
         return `
-        <a id="${this.name}" href="#" data-id = "${this.id}">${this.name}</a>`
+        <button id="${this.name}" data-id = "${this.id}">${this.name}</button>`
     }
 }
+
+
 
 class Chocolate{
     constructor(coco){
@@ -28,10 +32,10 @@ class Chocolate{
     <img data-id="${this.id}" src="${this.img_url}"/>
     <div class="container" >
     <h2>${this.title}</h2>
-    <p>$${this.price}</p>
+    <p>Price per box: $${this.price}</p>
+    <p>In Stock: ${this.quanity}</p>
     <p data-category="${this.category.id}">${this.category.name}</p>
      </div>
-     <button id="delete" data-id="${this.id}">Delete</button>
     </div>`
     }
 }
@@ -67,26 +71,12 @@ function make_clickable(){
     
     link.addEventListener("click", displayCats)
     
-
     let cards = document.querySelectorAll(".chocolate-card")
     cards.forEach(card=>{
         card.querySelector("img").addEventListener("click", displayCard)})
     
     let form = document.getElementById("recipeForm")
     form.addEventListener("click", displayForm)
-
-    // let edits = document.querySelectorAll("#Update-item")
-    // edits.forEach(edit =>{
-    //     edit.addEventListener("click", editItem)
-    // })
-
-    let d = document.querySelectorAll("#delete")
-     d.forEach(del => {
-        del.addEventListener("click", deleteItem)
-     })
-
-
-    
     
 }
 
@@ -138,7 +128,81 @@ function displayForm(){
 }
 
 function editItem(){
+    event.preventDefault()
 
+    let id = event.target.dataset.id
+    let formPage = document.getElementById("recipe-Form")
+    fetch(BASE_URL+"/items/"+id)
+     .then(resp => resp.json())
+     .then(item => { 
+       
+
+        let form =  `<form data-id ="${id}">
+            
+        <label>Title:</label>
+        <input type="text" id="title" value="${item.title}"><br>
+    
+        <label>Product Details:</label>
+        <input type="text" id="product_details" value="${item.product_details}"><br>
+    
+        <label>Price per box:</label>
+        <input type="text" id="price"value="${item.price}"><br>
+    
+        <label>Quanity:</label>
+        <input type="text" id="quanity" value="${item.quanity}"><br>
+    
+        <label>Img-url:</label>
+        <input type="text" id="img_url" value="${item.img_url}"><br>
+    
+
+        <input type="submit">
+        </form>   `
+
+        formPage.innerHTML = form
+    
+        document.querySelector("form").addEventListener("submit", updateChocolate)
+     })
+
+}
+
+function updateChocolate(){
+
+    event.preventDefault()
+
+    let id = event.target.dataset.id
+
+    const chocolate = {
+        title: document.getElementById("title").value,
+        product_details:  document.getElementById("product_details").value,
+        price:       document.getElementById("price").value,
+        quanity:    document.getElementById("quanity").value,
+        img_url: document.getElementById("img_url").value,
+        category_id:   id
+
+   }
+    fetch(BASE_URL+"/items/"+id,{
+        method: "PATCH",
+        body: JSON.stringify(chocolate),
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        }
+    })
+    .then(resp => resp.json())
+    .then(data =>{
+        document.querySelector(`.back-card img[data-id="${id}"`).parentElement.innerHTML = `<div class="back-card">
+        <h3>${data.title}</h3>
+        <img data-id="${data.id}" src="${data.img_url}"/>
+        <p>${data.product_details}</p>
+        <p>$${data.price}</p>
+        <p>${data.quanity} boxes in stock</p>
+        <button id="delete" data-id="${data.id}">Delete</button>
+        <button id="update" data-id="${data.id}">Edit</button>
+       </div>
+        `
+        make_clickable()
+        clearForm()
+    })
 }
 
 function deleteItem(){
@@ -151,10 +215,11 @@ function deleteItem(){
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
-
+         
         }
     })
     .then(event.target.parentElement.remove())
+    make_clickable()
 }
 
 
@@ -191,8 +256,9 @@ function addChocolate(){
             let container = document.querySelector("#chocolates-container") 
             container.innerHTML += choco.renderChocolate()
             
-            make_clickable()
             clearForm()
+            make_clickable()
+            
         })
         
         
@@ -244,10 +310,13 @@ function displayCard(){
          <p>${data.product_details}</p>
          <p>$${data.price}</p>
          <p>${data.quanity} boxes in stock</p>
-        
-         
+         <button id="delete" data-id="${data.id}">Delete</button>
+         <button id="update" data-id="${data.id}">Edit</button>
+        </div>
          `
          
+         document.getElementById("delete").addEventListener("click", deleteItem)
+         document.getElementById("update").addEventListener("click", editItem)
      })
    
      container.appendChild(div)
@@ -265,7 +334,7 @@ function displayCats(){
             container.innerHTML += catt.renderCat()
             make_clickable()
 
-            let linkz = document.querySelectorAll("#chocolates-container > a")
+            let linkz = document.querySelectorAll("#chocolates-container > button")
             linkz.forEach(link =>{
                 link.addEventListener("click", displayLinks)
             })
@@ -280,8 +349,6 @@ function displayLinks(){
     
     let container = document.getElementById("chocolates-container")
     container.innerHTML = "" 
-    let cakeContainer = document.getElementById("cakes-container")
-    let div = document.createElement("div")
     let id = event.target.dataset.id
     return fetch(BASE_URL+"/categories/"+id)
     .then(resp => resp.json())
@@ -295,6 +362,7 @@ function displayLinks(){
             <img data-id="${sweet.id}" src="${sweet.img_url}"/>
             <p>Price per box: $${sweet.price}</p>
             <p>Stock Inventory: ${sweet.quanity}</p>
+            
             </div>`
 
             let classes = document.querySelectorAll(".category")
