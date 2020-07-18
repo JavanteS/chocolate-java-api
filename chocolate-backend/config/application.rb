@@ -27,7 +27,7 @@ module ChocolateBackend
         origins '*'
         resource '*',
           :headers => :any,
-          :methods => [:get, :post, :delete, :put, :patch]
+          :methods => [:get, :post, :delete, :put, :patch, :options]
       end
     end
     # Initialize configuration defaults for originally generated Rails version.

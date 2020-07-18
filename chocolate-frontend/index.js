@@ -1,7 +1,17 @@
 const BASE_URL = "http://localhost:3000"
 
-// this array has all of the recipes
-// let arrayCart = []
+class Category{
+    constructor(cat){
+        this.id = cat.id 
+        this.name = cat.name
+    }
+
+    renderCat(){
+        return `
+        <a id="${this.name}" href="#" data-id = "${this.id}">${this.name}</a>`
+    }
+}
+
 class Chocolate{
     constructor(coco){
         this.id = coco.id
@@ -20,8 +30,8 @@ class Chocolate{
     <h2>${this.title}</h2>
     <p>$${this.price}</p>
     <p data-category="${this.category.id}">${this.category.name}</p>
-    <a class= "add-to-cart" href="#">Add to cart</a>
      </div>
+     <button id="delete" data-id="${this.id}">Delete</button>
     </div>`
     }
 }
@@ -37,40 +47,26 @@ function fetchChocolates(){
     .then(json => {
         json.forEach(coco =>{
             let choco = new Chocolate(coco)
-            // displayChocolates(coco)
             container.innerHTML += choco.renderChocolate()
             
-            
+           make_clickable() 
         })
-        make_clickable()
+        
         
     })
 }
 
-// function displayChocolates(coco){
-//     let div = document.createElement("div")
-//     let container = document.getElementById("chocolates-container")
-//     div.innerHTML += `<div class="chocolate-card" data-id="${coco.id}">
-//     <img data-id="${coco.id}" src="${coco.img_url}"/>
-//     <div class="container" >
-//     <h2>${coco.title}</h2>
-//     <p>$${coco.price}</p>
-//     <p data-category="${coco.category.id}">${coco.category.name}</p>
-//     <a class= "add-to-cart" href="#">Add to cart</a>
-//      </div>
-//     </div>`
 
-//     container.appendChild(div)
-// }
 
 
 function make_clickable(){
-    let links = document.querySelectorAll(".nav-links")
+    
+    let link = document.querySelector(".nav-links")
     let home = document.querySelector(".logo")
     home.addEventListener("click", homePage)
-    links.forEach(link => {
-        link.addEventListener("click", displayLinks)
-    })
+    
+    link.addEventListener("click", displayCats)
+    
 
     let cards = document.querySelectorAll(".chocolate-card")
     cards.forEach(card=>{
@@ -79,17 +75,25 @@ function make_clickable(){
     let form = document.getElementById("recipeForm")
     form.addEventListener("click", displayForm)
 
-    // let add = document.querySelectorAll(".add-to-cart")
+    // let edits = document.querySelectorAll("#Update-item")
+    // edits.forEach(edit =>{
+    //     edit.addEventListener("click", editItem)
+    // })
 
-    // for(let i = 0; i < add.length; i++){
-    // add[i].addEventListener("click", totalItems)
-    // }
+    let d = document.querySelectorAll("#delete")
+     d.forEach(del => {
+        del.addEventListener("click", deleteItem)
+     })
+
+
+    
     
 }
 
 function displayForm(){
-     clearThisPage()
+     
      clearPage()
+     
     let formPage = document.getElementById("recipe-Form")
      fetch(BASE_URL+"/categories")
      .then(resp => resp.json())
@@ -106,8 +110,6 @@ function displayForm(){
         <label>Category</label><br>
         
         ${category_buttons}<br>
-        
-        
     
         <label>Title:</label>
         <input type="text" id="title"><br>
@@ -124,8 +126,7 @@ function displayForm(){
         <label>Img-url:</label>
         <input type="text" id="img_url"><br>
     
-        
-    
+
         <input type="submit">
         </form>   `
     
@@ -134,41 +135,34 @@ function displayForm(){
         document.querySelector("form").addEventListener("submit", addChocolate)
 
      })
+}
 
-    
-   
+function editItem(){
 
 }
 
+function deleteItem(){
+
+    event.preventDefault()
+
+    let id = event.target.dataset.id
+    fetch(BASE_URL+"/items/"+id,{
+        method: "DELETE",
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+
+        }
+    })
+    .then(event.target.parentElement.remove())
+}
 
 
 function addChocolate(){
+
     event.preventDefault()
 
-    //  let ids = event.target.querySelectorAll("input")
-    //  let idz = Array.from(ids)
-
-    // let idz = Array.from(document.querySelectorAll(".radio-coco"))
     let id = Array.from(document.querySelectorAll(".radio-coco")).find(r => r.checked).value;
-
-    //  let id = idz.map(button => {
-    //      if(button.checked){
-    //          return button.value
-    //      }
-    //  })
-
-    // let id = "";
-
-    // for (let i = 0, length = idz.length; i < length; i++) {
-    //     if (idz[i].checked) {
-            
-    //         let id = idz[i].value
-    
-            
-    //         break;
-    //     }
-    // }
-
 
     const chocolate = {
          title: document.getElementById("title").value,
@@ -197,21 +191,10 @@ function addChocolate(){
             let container = document.querySelector("#chocolates-container") 
             container.innerHTML += choco.renderChocolate()
             
-            
+            make_clickable()
+            clearForm()
         })
-    // .then(data => {
-    //     let container = document.querySelector("#chocolates-container")
-    //     container.innerHTML += `<div class="chocolate-card" data-id="${data.id}">
-    //     <img data-id="${data.id}" src="${data.img_url}"/>
-    //     <div class="container" >
-    //     <h2>${data.title}</h2>
-    //     <p>$${data.price}</p>
-    //     <p data-category="${data.category.id}">${data.category.name}</p>
-    //     <a class= "add-to-cart" href="#">Add to cart</a>
-    //      </div>
-    //     </div>`
-        make_clickable()
-        clearForm()
+        
         
     })
 
@@ -219,14 +202,13 @@ function addChocolate(){
 
 function homePage(){
     clearPage()
-    clearThisPage()
     clearForm()
     fetchChocolates()
 }
 
 function clearForm(){
-    let formPage = document.getElementById("recipe-Form")
-    formPage.innerHTML = ""
+    let fod = document.getElementById("recipe-Form")
+    fod.innerHTML = ""
 }
 
 
@@ -238,6 +220,11 @@ function clearPage(){
 function clearThisPage(){
     let cakeContain = document.getElementById("cakes-container")
     cakeContain.innerHTML = ""
+}
+
+function clearLinks(){
+    let links = document.getElementById("linked")
+    linked.innerHTML = ""
 }
 
 function displayCard(){
@@ -256,7 +243,8 @@ function displayCard(){
          <img data-id="${data.id}" src="${data.img_url}"/>
          <p>${data.product_details}</p>
          <p>$${data.price}</p>
-         <p>${data.quanity} in stock<p>
+         <p>${data.quanity} boxes in stock</p>
+        
          
          `
          
@@ -265,65 +253,62 @@ function displayCard(){
      container.appendChild(div)
 }
 
+function displayCats(){
+    clearPage()
+    clearForm()
+    let container = document.getElementById("chocolates-container")
+    fetch(BASE_URL+"/categories")
+    .then(resp => resp.json())
+    .then(cats =>{
+        cats.forEach(cat =>{
+            let catt = new Category(cat)
+            container.innerHTML += catt.renderCat()
+            make_clickable()
+
+            let linkz = document.querySelectorAll("#chocolates-container > a")
+            linkz.forEach(link =>{
+                link.addEventListener("click", displayLinks)
+            })
+
+        }) 
+    })
+}
+
 
 function displayLinks(){
-    clearPage()
-    clearThisPage()
+    
+    
+    let container = document.getElementById("chocolates-container")
+    container.innerHTML = "" 
     let cakeContainer = document.getElementById("cakes-container")
     let div = document.createElement("div")
     let id = event.target.dataset.id
     return fetch(BASE_URL+"/categories/"+id)
     .then(resp => resp.json())
     .then(data => {
-        // let cake = data.find(({e}) => e === "Cake")
             data.items.forEach(sweet => {
             
-            div.innerHTML += `
-            <div data-id="${data.id}" class="category">
-            <h1>${data.name}</h1>
-
-            <img src="${sweet.img_url}"/>
-            <p>${sweet.title}</p>
-            <p>${sweet.price}</p>
+            container.innerHTML += `
+            
+            <div data-id="${sweet.id}" class="category">
+            <h3>${sweet.title}</h3>
+            <img data-id="${sweet.id}" src="${sweet.img_url}"/>
+            <p>Price per box: $${sweet.price}</p>
+            <p>Stock Inventory: ${sweet.quanity}</p>
             </div>`
 
-        
-        cakeContainer.appendChild(div)})
+            let classes = document.querySelectorAll(".category")
+            classes.forEach(c =>{
+                c.addEventListener("click", displayCard)
+
+            })
+        })
     })   
 }
 
-// function cartArray(){
-//     fetch(BASE_URL+"/items")
-//     .then(resp => resp.json())
-//     .then(items => {
-//         items.forEach(item =>{
-//             arrayCart.push(item)
-//         })
-//     })
-// }
-
-
-
-// function totalItems(){
-//     let nums = localStorage.getItem("totalItems")
-//     nums = parseInt(nums)
-//     if(nums){
-//         localStorage.setItem("totalItems", nums + 1)
-//         document.querySelector("#recipeForm span").textContent = nums + 1
-//     }
-//     else{
-//         localStorage.setItem("totalItems", 1)
-//         document.querySelector("#recipeForm span").textContent = 1
-//     }
-    
-// }
-
-
-
-
 window.addEventListener("DOMContentLoaded", ()=>{
     fetchChocolates()
-     
+    
     
     
     
