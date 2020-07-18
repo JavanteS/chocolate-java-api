@@ -45,6 +45,7 @@ function fetchChocolates(){
             
         })
         make_clickable()
+        
     })
 }
 
@@ -89,43 +90,111 @@ function make_clickable(){
 }
 
 function displayForm(){
-    // clearThisPage()
-    // clearPage()
+     clearThisPage()
+     clearPage()
     let formPage = document.getElementById("recipe-Form")
-    let form = `
+     fetch(BASE_URL+"/categories")
+     .then(resp => resp.json())
+     .then(categories =>{
+        let category_buttons = categories.map(category=>
+            `<label>${category.name}</label>
+            <input type="radio" class="radio-coco" id="chocolates" name="${category.name}" value="${category.id}"></input>`
+        ).join("")
+        let form = `
     
-    <form>
+        <form>
+            
+        <label>Category</label><br>
+        ${category_buttons}
+        
+        
+    
+        <label>Title:</label>
+        <input type="text" id="title"><br>
+    
+        <label>Product Details:</label>
+        <input type="text" id="product_details"><br>
+    
+        <label>Price per box:</label>
+        <input type="text" id="price"><br>
+    
+        <label>Quanity:</label>
+        <input type="text" id="quanity"><br>
+    
+        <label>Img-url:</label>
+        <input type="text" id="img_url"><br>
+    
+        
+    
+        <input type="submit">
+        </form>   `
+    
+        formPage.innerHTML = form
+    
+        document.querySelector("form").addEventListener("submit", addChocolate)
 
-    <label>Title</label>
-    <input type="text" id="title"><br>
+     })
 
-    <label>Product Details</label>
-    <input type="text" id="product_details"><br>
-
-    <label>Price per box</label>
-    <input type="text" id="price"><br>
-
-    <label>Quanity</label>
-    <input type="text" id="quanity"><br>
-
-    <input type="submit">
-    </form>   `
-
-    formPage.innerHTML = form
-
-    document.querySelector("form").addEventListener("submit", addChocolate)
+    
+   
 
 }
 
 function addChocolate(){
     event.preventDefault()
 
+     let ids = event.target.querySelectorAll("input")
+
+     let id = ids.forEach(button => {
+         if(button.checked){
+             return button.value
+         }
+     })
+
+    const chocolate = {
+         title: ,
+         product_details:  ,
+         price:       ,
+         quanity:    ,
+         img_url: 
+
+    }
+
+    fetch(BASE_URL+"/items",{
+        method: "POST",
+        body: JSON.stringify(chocolate),
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+
+        }
+    })
+    .then(resp => resp.json())
+    .then(data => {
+        let container = document.querySelector("#chocolates-container")
+        container.innerHTML += `<div class="chocolate-card" data-id="${data.id}">
+        <img data-id="${data.id}" src="${data.img_url}"/>
+        <div class="container" >
+        <h2>${data.title}</h2>
+        <p>$${data.price}</p>
+        <p data-category="${data.category.id}">${data.category.name}</p>
+        <a class= "add-to-cart" href="#">Add to cart</a>
+         </div>
+        </div>`
+    })
+
 }
 
 function homePage(){
     clearPage()
     clearThisPage()
+    clearForm()
     fetchChocolates()
+}
+
+function clearForm(){
+    let formPage = document.getElementById("recipe-Form")
+    formPage.innerHTML = ""
 }
 
 
@@ -174,7 +243,7 @@ function displayLinks(){
     .then(resp => resp.json())
     .then(data => {
         // let cake = data.find(({e}) => e === "Cake")
-            data.recipes.forEach(sweet => {
+            data.items.forEach(sweet => {
             
             div.innerHTML += `
             <div data-id="${data.id}" class="category">
@@ -190,15 +259,15 @@ function displayLinks(){
     })   
 }
 
-function cartArray(){
-    fetch(BASE_URL+"/items")
-    .then(resp => resp.json())
-    .then(items => {
-        items.forEach(item =>{
-            arrayCart.push(item)
-        })
-    })
-}
+// function cartArray(){
+//     fetch(BASE_URL+"/items")
+//     .then(resp => resp.json())
+//     .then(items => {
+//         items.forEach(item =>{
+//             arrayCart.push(item)
+//         })
+//     })
+// }
 
 
 
@@ -221,7 +290,7 @@ function cartArray(){
 
 document.addEventListener("DOMContentLoaded", ()=>{
     fetchChocolates()
-    cartArray()
+    
     
     
     

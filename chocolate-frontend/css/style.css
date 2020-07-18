@@ -90,10 +90,15 @@ p  {
   }
 
 input[type=text] {
-    margin:10px 0;
-    border-radius:10px;
-    box-shadow:0 0 15px 4px rgba(139, 139, 139, 0.06)
+    margin: 10px;
+    /* border-radius:10px; */
+    /* box-shadow:0 0 5px 4px rgba(139, 139, 139, 0.096) */
   } 
+
+form {
+    box-sizing: border-box;
+    margin: 5px;
+}
 
 .container{
     overflow: auto;

@@ -1,4 +1,4 @@
-class RecipeSerializer < ActiveModel::Serializer
+class ItemSerializer < ActiveModel::Serializer
   attributes :id, :title, :product_details, :price, :quanity, :img_url
   belongs_to :category
 

@@ -25,11 +25,11 @@ class ItemsController < ApplicationController
     end
 
 
-    # private
+    private
 
-    # def item_params
-    #     params.require(:item).permit(:title, :instructions, :difficulty_level,:img_url)
-    # end
+    def item_params
+        params.require(:item).permit(:title, :instructions, :difficulty_level,:img_url, :category_id)
+    end
 
     
 
