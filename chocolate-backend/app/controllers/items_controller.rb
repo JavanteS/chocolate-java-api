@@ -7,7 +7,7 @@ class ItemsController < ApplicationController
     end
 
     def create
-        item = Item.create(title: params[:title], product_details: params[:product_details], price: params[:price], quanity: params[:quanity], img_url: params[:img_url])
+        item = Item.create(item_params)
     end
 
     def show
@@ -20,7 +20,7 @@ class ItemsController < ApplicationController
 
     def update
         item = Item.find_by(id: params[:id])
-        item.update(title: params[:title], product_details: params[:product_details], price: params[:price], quanity: params[:quanity], img_url: params[:img_url])
+        item.update(item_params)
         render json: item
     end
 
@@ -28,7 +28,7 @@ class ItemsController < ApplicationController
     private
 
     def item_params
-        params.require(:item).permit(:title, :instructions, :difficulty_level,:img_url, :category_id)
+        params.require(:item).permit(:title, :product_details,:price, :quanity, :img_url, :category_id)
     end
 
     

@@ -67,6 +67,8 @@ nav{
     grid-gap: 10px;
     grid-auto-rows: minmax(450px, auto);
   }
+
+  
 .chocolate-card{
     height: 150px; 
     width:  auto;

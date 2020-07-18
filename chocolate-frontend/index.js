@@ -25,8 +25,6 @@ class Chocolate{
     </div>`
     }
 }
-// myChocolate = new Chocolate(coco)
-// myChocolate.renderChocolate()
 
 function fetchChocolates(){
 
@@ -40,8 +38,8 @@ function fetchChocolates(){
         json.forEach(coco =>{
             let choco = new Chocolate(coco)
             // displayChocolates(coco)
-            div.innerHTML += choco.renderChocolate()
-            container.appendChild(div)
+            container.innerHTML += choco.renderChocolate()
+            
             
         })
         make_clickable()
@@ -97,15 +95,17 @@ function displayForm(){
      .then(resp => resp.json())
      .then(categories =>{
         let category_buttons = categories.map(category=>
-            `<label>${category.name}</label>
-            <input type="radio" class="radio-coco" id="chocolates" name="${category.name}" value="${category.id}"></input>`
+            `
+            <input type="radio" class="radio-coco" id="category" name="${category.name}" value="${category.id}"></input>
+            <label>${category.name}</label>`
         ).join("")
         let form = `
     
         <form>
             
         <label>Category</label><br>
-        ${category_buttons}
+        
+        ${category_buttons}<br>
         
         
     
@@ -140,23 +140,43 @@ function displayForm(){
 
 }
 
+
+
 function addChocolate(){
     event.preventDefault()
 
-     let ids = event.target.querySelectorAll("input")
+    //  let ids = event.target.querySelectorAll("input")
+    //  let idz = Array.from(ids)
 
-     let id = ids.forEach(button => {
-         if(button.checked){
-             return button.value
-         }
-     })
+    // let idz = Array.from(document.querySelectorAll(".radio-coco"))
+    let id = Array.from(document.querySelectorAll(".radio-coco")).find(r => r.checked).value;
+
+    //  let id = idz.map(button => {
+    //      if(button.checked){
+    //          return button.value
+    //      }
+    //  })
+
+    // let id = "";
+
+    // for (let i = 0, length = idz.length; i < length; i++) {
+    //     if (idz[i].checked) {
+            
+    //         let id = idz[i].value
+    
+            
+    //         break;
+    //     }
+    // }
+
 
     const chocolate = {
-         title: ,
-         product_details:  ,
-         price:       ,
-         quanity:    ,
-         img_url: 
+         title: document.getElementById("title").value,
+         product_details:  document.getElementById("product_details").value,
+         price:       document.getElementById("price").value,
+         quanity:    document.getElementById("quanity").value,
+         img_url: document.getElementById("img_url").value,
+         category_id:   id
 
     }
 
@@ -164,23 +184,35 @@ function addChocolate(){
         method: "POST",
         body: JSON.stringify(chocolate),
         headers: {
-            "Content-Type": "application/json",
-            "Accept": "application/json"
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
 
         }
     })
+
     .then(resp => resp.json())
-    .then(data => {
-        let container = document.querySelector("#chocolates-container")
-        container.innerHTML += `<div class="chocolate-card" data-id="${data.id}">
-        <img data-id="${data.id}" src="${data.img_url}"/>
-        <div class="container" >
-        <h2>${data.title}</h2>
-        <p>$${data.price}</p>
-        <p data-category="${data.category.id}">${data.category.name}</p>
-        <a class= "add-to-cart" href="#">Add to cart</a>
-         </div>
-        </div>`
+    .then(json => {
+        json.forEach(coco =>{
+            let choco = new Chocolate(coco)
+            let container = document.querySelector("#chocolates-container") 
+            container.innerHTML += choco.renderChocolate()
+            
+            
+        })
+    // .then(data => {
+    //     let container = document.querySelector("#chocolates-container")
+    //     container.innerHTML += `<div class="chocolate-card" data-id="${data.id}">
+    //     <img data-id="${data.id}" src="${data.img_url}"/>
+    //     <div class="container" >
+    //     <h2>${data.title}</h2>
+    //     <p>$${data.price}</p>
+    //     <p data-category="${data.category.id}">${data.category.name}</p>
+    //     <a class= "add-to-cart" href="#">Add to cart</a>
+    //      </div>
+    //     </div>`
+        make_clickable()
+        clearForm()
+        
     })
 
 }
@@ -223,7 +255,8 @@ function displayCard(){
          <h3>${data.title}</h3>
          <img data-id="${data.id}" src="${data.img_url}"/>
          <p>${data.product_details}</p>
-         <p>${data.quanity}<p>
+         <p>$${data.price}</p>
+         <p>${data.quanity} in stock<p>
          
          `
          
@@ -288,8 +321,9 @@ function displayLinks(){
 
 
 
-document.addEventListener("DOMContentLoaded", ()=>{
+window.addEventListener("DOMContentLoaded", ()=>{
     fetchChocolates()
+     
     
     
     
