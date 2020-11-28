@@ -113,6 +113,18 @@ nav{
     margin: 60px;
   }
 
+.image-box{
+    /* display: grid;
+    height: 100%;
+    width: 100%; */
+    position: relative;
+    height: 500px;
+    overflow: hidden;
+    background-image: url("../pexels-lisa-fotios-918328.jpg");
+    background-size: cover;
+
+}
+
 .img-clickables{
       height: 250px;
       width: 150px;

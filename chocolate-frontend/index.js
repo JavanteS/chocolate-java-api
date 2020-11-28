@@ -219,7 +219,7 @@ function updateChocolate(){
     .then(data =>{
         document.querySelector(`.back-card img[data-id="${id}"`).parentElement.innerHTML = `<div class="back-card">
         <h3>${data.title}</h3>
-        <img data-id="${data.id}" src="${data.img_url}"/>
+        <img class="img-clickables" data-id="${data.id}" src="${data.img_url}"/>
         <p>${data.product_details}</p>
         <p>$${data.price}</p>
         <p>${data.quanity} boxes in stock</p>
@@ -333,7 +333,7 @@ function displayCard(){
      .then(data => {
          div.innerHTML += `<div class="back-card">
          <h3>${data.title}</h3>
-         <img data-id="${data.id}" src="${data.img_url}"/>
+         <img class="img-clickables" data-id="${data.id}" src="${data.img_url}"/>
          <p>${data.product_details}</p>
          <p>$${data.price}</p>
          <p>${data.quanity} boxes in stock</p>
