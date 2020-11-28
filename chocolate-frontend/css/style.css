@@ -120,10 +120,19 @@ nav{
     position: relative;
     height: 500px;
     overflow: hidden;
-    background-image: url("../pexels-lisa-fotios-918328.jpg");
+    background-image: url("../pexels-elle-hughes-1474264copy.jpg");
     background-size: cover;
 
 }
+
+.footer {
+    background-color: rgb(0, 0, 0);
+    height: 200px;
+    position: relative;
+    color: white;
+}
+
+
 
 .img-clickables{
       height: 250px;

@@ -299,6 +299,8 @@ function homePage(){
     fetchChocolates()
 }
 
+
+
 function clearForm(){
     let fod = document.getElementById("recipe-Form")
     fod.innerHTML = ""
