@@ -2,6 +2,7 @@ class ItemsController < ApplicationController
 
 
     def index
+        
         items = Item.all
         render json: items #RecipeSerializer.new(recipes).to_serialized_json
     end

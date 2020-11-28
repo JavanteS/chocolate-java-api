@@ -29,13 +29,13 @@ class Chocolate{
     }
     renderChocolate(){
     return `<div class="chocolate-card" data-id="${this.id}">
-    <img data-id="${this.id}" src="${this.img_url}"/>
-    <div class="container" >
-    <h2>${this.title}</h2>
-    <p>Price per box: $${this.price}</p>
-    <p>In Stock: ${this.quanity}</p>
-    <p data-category="${this.category.id}">${this.category.name}</p>
-     </div>
+            <img class="img-clickables" data-id="${this.id}" src="${this.img_url}"/>
+            <div class="container" >
+            <h2>${this.title}</h2>
+            <p>Price per box: $${this.price}</p>
+            <p>In Stock: ${this.quanity}</p>
+            <p data-category="${this.category.id}">${this.category.name}</p>
+        </div>
     </div>`
     }
 }
@@ -43,8 +43,8 @@ class Chocolate{
 function fetchChocolates(){
 
     let container = document.getElementById("chocolates-container")
-    let div = document.createElement("div")
-    return fetch(BASE_URL+"/items")
+    
+    fetch(BASE_URL+"/items")
 
     .then(resp => resp.json())
 
@@ -65,7 +65,7 @@ function fetchChocolates(){
 
 function make_clickable(){
     
-    let link = document.querySelector(".nav-links")
+    let link = document.getElementById("cat")
     let home = document.querySelector(".logo")
     home.addEventListener("click", homePage)
     
@@ -73,11 +73,38 @@ function make_clickable(){
     
     let cards = document.querySelectorAll(".chocolate-card")
     cards.forEach(card=>{
-        card.querySelector("img").addEventListener("click", displayCard)})
+        card.querySelector(".img-clickables").addEventListener("click", displayCard)})
     
     let form = document.getElementById("recipeForm")
     form.addEventListener("click", displayForm)
+
+    let costly = document.getElementById("pricey")
+    costly.addEventListener("click", priceyItems)
     
+}
+
+function priceyItems(){
+ clearPage()
+
+ fetch(BASE_URL+"/items")
+
+    .then(resp => resp.json())
+
+    .then(json => {
+        let container = document.getElementById("chocolates-container")
+        
+        let filteredChoco = json.filter(choco => choco.price > 200)
+        
+        filteredChoco.forEach(coco =>{
+                let choco = new Chocolate(coco)
+                container.innerHTML += choco.renderChocolate()
+
+                make_clickable() 
+        }) 
+   
+    })
+    
+
 }
 
 function displayForm(){
@@ -207,7 +234,7 @@ function updateChocolate(){
 
 function deleteItem(){
 
-    event.preventDefault()
+    
 
     let id = event.target.dataset.id
     fetch(BASE_URL+"/items/"+id,{
@@ -223,7 +250,7 @@ function deleteItem(){
 }
 
 
-function addChocolate(){
+ const addChocolate = () => {
 
     event.preventDefault()
 

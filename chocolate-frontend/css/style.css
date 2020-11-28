@@ -5,7 +5,7 @@
 }
 
 body{
-    background-color: rgb(236, 234, 234);
+    background-color: rgb(255, 255, 255);
 }
 
 nav{
@@ -14,11 +14,11 @@ nav{
     align-items: center;
     min-height: 8vh;
     font-family: Arial, Helvetica,sans-serif;
-    background-color: rgb(133, 88, 88);
+    background-color: rgb(255, 255, 255);
 }
 
 .logo{
-    color: rgb(218, 214, 214);
+    color:  rgb(133, 88, 88);
     text-transform: uppercase;
     letter-spacing: 5px;
     font-size: 15px;
@@ -28,7 +28,7 @@ nav{
 
 .logo a{
     text-decoration: none;
-    color: rgb(218, 214, 214);
+    color: rgb(133, 88, 88);
 }
 
 .nav-links{
@@ -41,7 +41,13 @@ nav{
     text-decoration: none;
     letter-spacing: 3px;
     font-weight: bold;
-    color: rgb(218, 214, 214);
+    color: rgb(133, 88, 88);
+}
+
+.bx-cart{
+    font-size: 1.5rem;
+    display: flex;
+    
 }
 
 .nav-links li {
@@ -107,14 +113,14 @@ nav{
     margin: 60px;
   }
 
-img {
+.img-clickables{
       height: 250px;
       width: 150px;
       border-radius: 5px 5px 0 0;
       transition: transform .2s
   }
 
-img:hover{
+.img-clickables:hover{
     transform: scale(1.15)
 }
 
